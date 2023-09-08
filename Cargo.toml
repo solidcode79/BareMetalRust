@@ -1,0 +1,12 @@
+[package]
+name = "bare-metal-rust"
+version = "0.0.1"
+edition = "2021"
+
+[profile.dev]
+debug = true
+opt-level = 0
+panic = "abort"
+
+[profile.release]
+panic = "abort"
