@@ -3,6 +3,9 @@
 
 use core::panic::PanicInfo;
 mod startup;
+mod usart_driver;
+mod logger;
+
 
 pub static mut YOUR_RW_VARIABLE: u32 =  0x0000002A; // Should go into .data section
 pub static mut YOUR_BSS_VARIABLE: u32 = 0; // Should go in the .bss section
@@ -29,6 +32,9 @@ pub extern "C" fn main() -> ! {
         let _m = &linker_load_memory_address_data_section;
         let _n = &YOUR_RO_VARIABLE;
     }
+    logger::initialize();
+    logger::write_str("hello from main");
+    logger::write_adddress(YOUR_RO_VARIABLE.as_ptr() as u32);
 
 	loop {
 	}	

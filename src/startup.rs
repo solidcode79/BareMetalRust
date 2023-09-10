@@ -1,5 +1,6 @@
 extern "C" {fn main() -> !;}
 use core::ptr;
+use crate::logger;
 
 // The first function that is called when ARM reset happens
 #[no_mangle]
@@ -25,6 +26,17 @@ pub extern "C" fn ARMResetHandler() -> ! {
         ptr::copy_nonoverlapping(&linker_load_memory_address_data_section as *const u8, &mut linker_start_data as *mut u8, count);
     }
 
+    // Tun on SysTick
+    unsafe {
+
+        pub const SYST_CSR: *mut u32 = (0xE000E010)  as *mut u32; // SysTick Control Register
+        pub const SYST_RVR: *mut u32 = (0xE000E014)  as *mut u32; // SysTick Reload Value Register
+        pub const SYST_CVR: *mut u32 = (0xE000E018)  as *mut u32; // SysTick Current Value Register
+
+        ptr::write_volatile(SYST_RVR, 0x00ffffff); 
+        ptr::write_volatile(SYST_CVR, 0x0); 
+        ptr::write_volatile(SYST_CSR, 0x7); // Enable SysTick
+    }
 
     unsafe { main() }
 }
@@ -88,7 +100,7 @@ pub unsafe extern "C" fn ARMPendSVHandler() -> ! {
 #[no_mangle]
 pub unsafe extern "C" fn ARMSysTickHandler() -> ! {
     loop {
-
+        logger::write_str("TickTock");
     }
  }
 
