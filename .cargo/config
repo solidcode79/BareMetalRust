@@ -1,6 +1,0 @@
-[target.thumbv7m-none-eabi]
-# change the extension of linker file and it doesn't work WTF!
-rustflags = ["-C", "link-arg=-TMyLinkerFile.ld", "-Clink-args=-Map=./target/thumbv7m-none-eabi/debug/bare-metal-rust.map"]
-
-[build]
-target = "thumbv7m-none-eabi"

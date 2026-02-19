@@ -1,12 +1,18 @@
 [package]
-name = "bare-metal-rust"
-version = "0.0.1"
+name = "RustRTOS"
+version = "0.1.0"
 edition = "2021"
 
+[features]
+lm3s6965 = []
+stm32f103 = []
+
 [profile.dev]
-debug = true
-opt-level = 0
 panic = "abort"
 
 [profile.release]
-panic = "abort"
+panic = "abort"      # Removes the stack unwinding machinery
+opt-level = "z"      # Optimize for size
+lto = true           # Link-time optimization (removes unused code)
+codegen-units = 1    # Allows deeper optimization
+strip = "symbols"         # Automatically removes debug symbols
