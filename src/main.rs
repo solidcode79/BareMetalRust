@@ -10,7 +10,7 @@ use hal::systick;
 use hal::scb;
 
 #[no_mangle]
-pub unsafe extern "C" fn reset() {
+pub unsafe extern "C" fn reset_handler() {
         
     extern "C" {
         static mut _start_of_bss: u32;
@@ -68,7 +68,7 @@ pub extern "C" fn main() {
 fn panic(_: &PanicInfo) -> ! {
     error!("Panic :: RUST trigger panic triggered SVC");
     unsafe {
-            core::arch::asm!("svc #255");
+            core::arch::asm!("svc #1");
     }   
     loop {}
 }
@@ -90,7 +90,7 @@ pub fn task2_entry() -> ! {
     loop {
         info!(" Running T2");  
         unsafe { core::arch::asm!("wfi"); }
-        panic!();
+        // panic!();
 
 
          // Application Logic

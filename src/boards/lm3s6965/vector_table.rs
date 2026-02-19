@@ -17,7 +17,7 @@ pub struct VectorTable {
 extern "C" {
     fn sysTick_handler();
     fn pendSV_handler();   
-    fn reset();
+    fn reset_handler();
     fn default_handler();
     fn usage_fault();
     fn bus_fault();
@@ -29,7 +29,7 @@ extern "C" {
 #[link_section = ".vectors"]
 #[no_mangle]
 pub static VECTOR_TABLE: VectorTable = VectorTable {
-    reset: reset,
+    reset: reset_handler,
     nmi: default_handler,
     hard_fault: hard_fault,
     mem_manage: default_handler,
